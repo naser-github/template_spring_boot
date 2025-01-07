@@ -24,10 +24,10 @@ services:
     networks:
       - template-spring-boot-network
 
-  template-spring-boot:
-    image: template-spring-boot
+  application:
+    image: template-spring-boot-application
     
-    container_name: template-spring-boot
+    container_name: template-spring-boot-application
     
     restart: unless-stopped
     
