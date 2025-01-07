@@ -4,21 +4,9 @@ target/
 !**/src/test/**/target/
 
 
-### IntelliJ IDEA ###
+### IDE ###
 .idea
-*.iws
-*.iml
-*.ipr
+.vscode
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
+### Configuration files ###
+.env
