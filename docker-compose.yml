@@ -1,28 +1,28 @@
 services:
-  mysql:
-    image: mysql:8.4.2
+  # mysql:
+  #   image: mysql:8.4.2
     
-    container_name: template-spring-boot-db
+  #   container_name: template-spring-boot-db
     
-    restart: unless-stopped
+  #   restart: unless-stopped
     
-    ports:
-      - "${DB_EXPOSED_PORT:-2203}:3306"
+  #   ports:
+  #     - "${DB_EXPOSED_PORT:-2203}:3306"
     
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_pass}
-      MYSQL_USER: template_user
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-template_user_pass}
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_pass}
+  #     MYSQL_USER: template_user
+  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD:-template_user_pass}
     
-    volumes:
-      - template-spring-boot-db:/var/lib/mysql
+  #   volumes:
+  #     - template-spring-boot-db:/var/lib/mysql
     
-    command:
-      - "--mysql-native-password=ON"
-      - "--sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"      
+  #   command:
+  #     - "--mysql-native-password=ON"
+  #     - "--sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"      
     
-    networks:
-      - template-spring-boot-network
+  #   networks:
+  #     - template-spring-boot-network
 
   application:
     image: template-spring-boot-application
