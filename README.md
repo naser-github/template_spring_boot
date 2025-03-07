@@ -1,1 +1,1 @@
-# template_spring_boot
+# Template for Spring Boot Projects

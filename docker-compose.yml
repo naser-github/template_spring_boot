@@ -58,6 +58,7 @@ services:
 networks:
   template-spring-boot-network:
     driver: bridge
+    name: template-spring-boot-network
 
-volumes:
-  template-spring-boot-db:
+# volumes:
+#   template-spring-boot-db:
