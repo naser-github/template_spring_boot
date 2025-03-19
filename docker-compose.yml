@@ -1,34 +1,53 @@
 services:
-  application:
-    image: template-spring-boot-application
-    
-    container_name: template-spring-boot-application
-    
+
+    #   Database Server
+  db:
+    image: mysql:8.0.0
+    container_name: template-spring-boot-db
     restart: unless-stopped
-    
-    stdin_open: true
-    
-    tty: true
-    
-    build:
-      dockerfile: Dockerfile.local
-      context: ./docker
-    
     ports:
-      - "${TEMPLATE_SPRING_BOOT_EXPOSED_PORT:-4040}:8080"
-    
-    working_dir: /opt/app
-    
+      - "2203:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-template_spring_boot_db} 
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-template_spring_boot_root} 
+      MYSQL_USER: ${DB_USERNAME:-template_spring_boot_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-template_spring_boot_pass}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
     volumes:
-      - ./:/opt/app
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ~/.m2:/root/.m2
-    
-    command: bash -c "chmod +x ./docker/scripts/run_local.sh && ./docker/scripts/run_local.sh"
-    
+      - template-spring-boot-data:/var/lib/mysql
+    command:
+      - "--default-authentication-plugin=mysql_native_password"
+      - "--sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+      - "--tls-version=TLSv1.2,TLSv1.3"
     networks:
       - template-spring-boot-network
 
+  #application
+  application:
+    image: template-spring-boot-application    
+    container_name: template-spring-boot-application    
+    restart: unless-stopped    
+    stdin_open: true    
+    tty: true
+    build:
+      dockerfile: Dockerfile.local
+      context: ./docker
+    ports:
+      - "${TEMPLATE_SPRING_BOOT_EXPOSED_PORT:-4040}:8080"
+    working_dir: /opt/app    
+    volumes:
+      - ./:/opt/app
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.m2:/root/.m2    
+    command: bash -c "chmod +x ./docker/scripts/run_local.sh && ./docker/scripts/run_local.sh"    
+    networks:
+      - template-spring-boot-network
+    depends_on:
+      - db      
+
+volumes:
+  template-spring-boot-data:
 
 networks:
   template-spring-boot-network:
